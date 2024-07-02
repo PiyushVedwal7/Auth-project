@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block start %}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        animation: fadeIn 1.5s ease-in-out;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 800px;
+        margin-top: 50px;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background-color: #f8f8f8;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #fcb69f;
+        box-shadow: 0 0 10px rgba(252, 182, 159, 0.5);
+    }
+
+    button,
+    .action-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #fcb69f;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        text-align: center;
+    }
+
+    button:hover,
+    .action-btn:hover {
+        background-color: #ffecd2;
+        color: #333;
+        transform: scale(1.05);
+    }
+
+    .table thead {
+        background-color: #fcb69f;
+        color: white;
+    }
+
+    .table tbody tr:hover {
+        background-color: #ffecd2;
+    }
+
+    .ok {
+        color: white;
+        text-decoration: none;
+    }
+
+    .ok:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .action-btn {
+        flex: 1;
+        margin: 0 5px;
+    }
+</style>
+
+<div class="container">
+    <form class="card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h4>Recipe</h4>
+        <hr>
+        <div class="form-group">
+            <label for="day">Day-Time</label>
+            <input type="text" name="day" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Recipe</label>
+            <input name="name" type="text" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" rows="5" cols="30"></textarea>
+        </div>
+        <button type="submit" class="btn">Add Data</button>
+    </form>
+    <hr>
+    <div class="mt-5">
+        <form action="">
+            <button class="btn"> <a href="{% url 'pdf' %}" class="ok">Generate Plan</a></button>
+        </form>
+
+        <table class="table mt-6">
+            <thead>
+                <tr>
+                    <th scope="col">S.No.</th>
+                    <th scope="col">Day-Time</th>
+                    <th scope="col">Recipe Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ recipe.day }}</td>
+                    <td>{{ recipe.name }}</td>
+                    <td>{{ recipe.description }}</td>
+                    <td class="actions">
+                        <a href="{% url 'update_recipe' recipe.id %}" class="action-btn btn btn-warning">Update</a>
+                        <a href="{% url 'delete_recipe' recipe.id %}" class="action-btn btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+  <!-- Your content goes here -->
+{% endblock %}

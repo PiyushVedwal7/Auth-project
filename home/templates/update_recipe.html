@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block start %}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        animation: fadeIn 1.5s ease-in-out;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 800px;
+        margin-top: 50px;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background-color: #f8f8f8;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #fcb69f;
+        box-shadow: 0 0 10px rgba(252, 182, 159, 0.5);
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #fcb69f;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #ffecd2;
+        color: #333;
+        transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="container mt-5 col-5">
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h4>Update Recipe</h4>
+        <hr>
+        <div class="form-group">
+            <label for="day">Day-Time</label>
+            <input type="text" name="day" value="{{ recipe.day }}" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Recipe</label>
+            <input name="name" type="text" value="{{ recipe.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" rows="5" cols="30">{{ recipe.description }}</textarea>
+        </div>
+        <button type="submit" class="btn">Update Data</button>
+    </form>
+</div>
+
+
+{% endblock %}
